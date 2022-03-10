@@ -53,6 +53,7 @@ function buttonPressed(side) {
   checkWin();
 }
 function reset() {
+  setProperty("win", "background-color", "white");
   setProperty("winner", "text", "");
   setScreen("game");
   setProperty("instructions", "hidden", false);
@@ -85,14 +86,21 @@ function moveCar(direction) {
 function checkWin() {
   var carY = getProperty("car", "y");
   if (carY < -80) {
-    setProperty("winner", "text", "Left");
-    setScreen("win");
-    over = true;
-    buzzer.frequency(500, 500);
+    win("L");
   } else if ((carY > 430)) {
+    win("R");
+  }
+}
+function win(side) {
+  if (side === "R") {
     setProperty("winner", "text", "Right");
-    setScreen("win");
-    over = true;
+    setProperty("win", "background-color", "red");
+    buzzer.frequency(500, 500);
+  } else if ((side === "L")) {
+    setProperty("winner", "text", "Left");
+    setProperty("win", "background-color", "blue");
     buzzer.frequency(250, 500);
   }
+  setScreen("win");
+  over = true;
 }
